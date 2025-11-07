@@ -209,8 +209,8 @@ window.addEventListener('load', () => {
   setTimeout(() => {
     const vuosqSection = document.querySelector('section:last-of-type');
     if (vuosqSection) {
-      // Calculate the target scroll position to center the vuosq title
-      const targetY = vuosqSection.offsetTop - (window.innerHeight / 2) + (vuosqSection.offsetHeight / 2);
+      // Scroll to the section's position (top of the section)
+      const targetY = vuosqSection.offsetTop;
       
       // Custom smooth scroll animation using GSAP
       gsap.to(window, {
