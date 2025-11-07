@@ -207,20 +207,17 @@ window.addEventListener('load', () => {
   
   // Wait 1 second before starting the scroll animation
   setTimeout(() => {
-    const vuosqSection = document.querySelector('section:last-of-type');
-    if (vuosqSection) {
-      // Scroll to the section's position (top of the section)
-      const targetY = vuosqSection.offsetTop;
-      
-      // Custom smooth scroll animation using GSAP
-      gsap.to(window, {
-        duration: 22,
-        scrollTo: { y: targetY, autoKill: false },
-        ease: 'power2.inOut',
-        onStart: () => console.log('Scroll animation started'),
-        onComplete: () => console.log('Scroll complete')
-      });
-    }
+    // Calculate the maximum scrollable distance (bottom of the page)
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    
+    // Custom smooth scroll animation using GSAP
+    gsap.to(window, {
+      duration: 22,
+      scrollTo: { y: maxScroll, autoKill: false },
+      ease: 'power2.inOut',
+      onStart: () => console.log('Scroll animation started'),
+      onComplete: () => console.log('Scroll complete')
+    });
   }, 1000);
 });
 
