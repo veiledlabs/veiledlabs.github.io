@@ -1,20 +1,30 @@
 import { Pane } from 'https://cdn.skypack.dev/tweakpane@4.0.4';
 import gsap from 'https://cdn.skypack.dev/gsap@3.12.0';
 import ScrollTrigger from 'https://cdn.skypack.dev/gsap@3.12.0/ScrollTrigger';
+import ScrollToPlugin from 'https://cdn.skypack.dev/gsap@3.12.0/ScrollToPlugin';
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollToPlugin);
+
+const ENABLE_CONFIG_UI = false;
 
 const config = {
-  theme: 'dark',
+  theme: 'system',
   animate: true,
-  snap: true,
+  snap: false,
   start: gsap.utils.random(0, 100, 1),
   end: gsap.utils.random(900, 1000, 1),
   scroll: true,
   debug: false };
 
 
-const ctrl = new Pane({
-  title: 'Config',
-  expanded: false });
+let ctrl;
+if (ENABLE_CONFIG_UI) {
+  ctrl = new Pane({
+    title: 'Config',
+    expanded: false
+  });
+}
 
 
 let items;
@@ -57,41 +67,40 @@ const sync = event => {
   return update();
   document.startViewTransition(() => update());
 };
-ctrl.addBinding(config, 'animate', {
-  label: 'Animate' });
+if (ENABLE_CONFIG_UI) {
+  ctrl.addBinding(config, 'animate', {
+    label: 'Animate' });
 
-ctrl.addBinding(config, 'snap', {
-  label: 'Snap' });
+  ctrl.addBinding(config, 'snap', {
+    label: 'Snap' });
 
-ctrl.addBinding(config, 'start', {
-  label: 'Hue Start',
-  min: 0,
-  max: 1000,
-  step: 1 });
+  ctrl.addBinding(config, 'start', {
+    label: 'Hue Start',
+    min: 0,
+    max: 1000,
+    step: 1 });
 
-ctrl.addBinding(config, 'end', {
-  label: 'Hue End',
-  min: 0,
-  max: 1000,
-  step: 1 });
+  ctrl.addBinding(config, 'end', {
+    label: 'Hue End',
+    min: 0,
+    max: 1000,
+    step: 1 });
 
-ctrl.addBinding(config, 'scroll', {
-  label: 'Scrollbar' });
+  ctrl.addBinding(config, 'scroll', {
+    label: 'Scrollbar' });
 
-ctrl.addBinding(config, 'debug', {
-  label: 'Debug' });
+  ctrl.addBinding(config, 'debug', {
+    label: 'Debug' });
 
+  ctrl.addBinding(config, 'theme', {
+    label: 'Theme',
+    options: {
+      System: 'system',
+      Light: 'light',
+      Dark: 'dark' } });
 
-ctrl.addBinding(config, 'theme', {
-  label: 'Theme',
-  options: {
-    System: 'system',
-    Light: 'light',
-    Dark: 'dark' } });
-
-
-
-ctrl.on('change', sync);
+  ctrl.on('change', sync);
+}
 
 // backfill the scroll functionality with GSAP
 if (
@@ -182,5 +191,25 @@ if (
 
 
 }
+
+// Automatic scroll to vuosq title on page load
+window.addEventListener('load', () => {
+  // Wait 1 second before starting the scroll animation
+  setTimeout(() => {
+    const vuosqSection = document.querySelector('section:last-of-type');
+    if (vuosqSection) {
+      // Calculate the target scroll position to center the vuosq title
+      const targetY = vuosqSection.offsetTop - (window.innerHeight / 2) + (vuosqSection.offsetHeight / 2);
+      
+      // Use GSAP for smooth scroll animation
+      gsap.to(window, {
+        duration: 3,
+        scrollTo: targetY,
+        ease: 'power2.inOut'
+      });
+    }
+  }, 1000);
+});
+
 // run it
 update();

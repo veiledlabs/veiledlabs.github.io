@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
 @import url('https://unpkg.com/normalize.css') layer(normalize);
 
-@layer normalize, base, demo, stick, effect, srollbar, debug;
+@layer normalize, base, demo, stick, effect, scrollbar, debug;
 
 @layer debug {
   [data-debug='true'] li {
@@ -94,7 +94,9 @@
     --lightness: 65%;
   }
   @media (prefers-color-scheme: dark) {
-    --lightness: 75%;
+    :root {
+      --lightness: 75%;
+    }
   }
   ul {
     --step: calc((var(--end) - var(--start)) / (var(--count) - 1));
@@ -222,7 +224,10 @@
   header {
     min-height: 100vh;
     display: flex;
-    place-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.5rem;
     width: 100%;
     padding-inline: 5rem;
   }
@@ -236,7 +241,7 @@
     --font-size-min: 24;
     --font-level: 8;
     text-wrap: pretty;
-    line-height: 0.8;
+    line-height: 1.05;
     margin: 0;
     background: linear-gradient(
       canvasText 60%,
@@ -245,6 +250,19 @@
     -webkit-background-clip: text;
             background-clip: text;
     color: #0000;
+  }
+
+  .tagline {
+    --font-level: 3;
+    color: light-dark(
+      color-mix(in oklch, canvasText, canvas 20%),
+      color-mix(in oklch, canvasText, canvas 30%)
+    );
+    opacity: 0.9;
+    margin: 0;
+    line-height: 1.2;
+    font-weight: 500;
+    text-wrap: balance;
   }
 }
 
