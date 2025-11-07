@@ -194,8 +194,17 @@ if (
 
 }
 
+// Force scroll to top on page load/refresh
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 // Automatic scroll to vuosq title on page load
 window.addEventListener('load', () => {
+  // Ensure we're at the top before starting animation
+  window.scrollTo(0, 0);
+  
   // Wait 1 second before starting the scroll animation
   setTimeout(() => {
     const vuosqSection = document.querySelector('section:last-of-type');
@@ -205,7 +214,7 @@ window.addEventListener('load', () => {
       
       // Custom smooth scroll animation using GSAP
       gsap.to(window, {
-        duration: 8,
+        duration: 12,
         scrollTo: { y: targetY, autoKill: false },
         ease: 'power2.inOut',
         onStart: () => console.log('Scroll animation started'),
