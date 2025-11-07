@@ -205,7 +205,7 @@ window.addEventListener('load', () => {
       
       // Custom smooth scroll animation using GSAP
       gsap.to(window, {
-        duration: 6,
+        duration: 8,
         scrollTo: { y: targetY, autoKill: false },
         ease: 'power2.inOut',
         onStart: () => console.log('Scroll animation started'),
