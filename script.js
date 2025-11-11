@@ -222,4 +222,57 @@ window.addEventListener('load', () => {
 });
 
 // run it
+
+// Modal functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Get modal elements
+    const modalBackdrop = document.querySelector('.modal-backdrop');
+    const contactButtons = document.querySelectorAll('.contact-button, .cta-button, [href*="#contact"]');
+    const closeButton = document.querySelector('.modal-close');
+
+    // If no modal elements found, exit
+    if (!modalBackdrop) return;
+
+    // Show modal function
+    function showModal() {
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+        modalBackdrop.classList.add('visible');
+    }
+
+    // Hide modal function
+    function hideModal() {
+        document.body.style.overflow = ''; // Re-enable scrolling
+        modalBackdrop.classList.remove('visible');
+    }
+
+    // Add click event to all contact buttons
+    contactButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Only prevent default for anchor tags
+            if (this.tagName === 'A') {
+                e.preventDefault();
+            }
+            showModal();
+        });
+    });
+
+    // Close modal when clicking the close button
+    if (closeButton) {
+        closeButton.addEventListener('click', hideModal);
+    }
+
+    // Close modal when clicking outside the modal content
+    modalBackdrop.addEventListener('click', function(e) {
+        if (e.target === modalBackdrop) {
+            hideModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modalBackdrop.classList.contains('visible')) {
+            hideModal();
+        }
+    });
+});
 update();
